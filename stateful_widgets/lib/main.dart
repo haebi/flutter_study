@@ -14,6 +14,13 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int counter = 0;
   List<int> numbers = [];
+  bool showTitle = true;
+
+  void toggleTitle() {
+    setState(() {
+      showTitle = !showTitle;
+    });
+  }
 
   void onClicked() {
     setState(() {
@@ -111,11 +118,12 @@ class _AppState extends State<App> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const MyLargeTitle(),
+                            showTitle
+                                ? const MyLargeTitle()
+                                : const Text('nothing'),
                             IconButton(
-                              iconSize: 40,
-                              onPressed: onClicked2,
-                              icon: const Icon(Icons.add_box_rounded),
+                              onPressed: toggleTitle,
+                              icon: const Icon(Icons.remove_red_eye),
                             ),
                           ],
                         ),
@@ -132,13 +140,31 @@ class _AppState extends State<App> {
   }
 }
 
-class MyLargeTitle extends StatelessWidget {
+class MyLargeTitle extends StatefulWidget {
   const MyLargeTitle({
     super.key,
   });
 
   @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
+  @override
+  void initState() {
+    super.initState();
+    print('initState!');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("dispose!");
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('build!');
     return Text(
       'My Large Title',
       style: TextStyle(
